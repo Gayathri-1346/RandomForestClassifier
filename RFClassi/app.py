@@ -23,7 +23,7 @@ st.set_page_config(
 )
 
 # =========================================================
-# LIGHT BACKGROUND UI
+# CUSTOM CSS
 # =========================================================
 
 st.markdown("""
@@ -198,89 +198,6 @@ accuracy = accuracy_score(y_test, y_pred)
 st.success(f"✅ Model Accuracy: {accuracy*100:.2f}%")
 
 # =========================================================
-# GRAPHS
-# =========================================================
-
-st.header("📊 Dataset Visualizations")
-
-col1, col2 = st.columns(2)
-
-# ---------------- LOAN STATUS GRAPH ----------------
-
-with col1:
-
-    st.subheader("Loan Approval Distribution")
-
-    fig1, ax1 = plt.subplots()
-
-    df["Loan_Status"].value_counts().plot(
-        kind="bar",
-        ax=ax1
-    )
-
-    ax1.set_xlabel("Loan Status")
-    ax1.set_ylabel("Count")
-
-    st.pyplot(fig1)
-
-# ---------------- APPLICANT INCOME GRAPH ----------------
-
-with col2:
-
-    st.subheader("Applicant Income Distribution")
-
-    fig2, ax2 = plt.subplots()
-
-    ax2.hist(df["ApplicantIncome"], bins=20)
-
-    ax2.set_xlabel("Applicant Income")
-    ax2.set_ylabel("Frequency")
-
-    st.pyplot(fig2)
-
-# =========================================================
-# MORE GRAPHS
-# =========================================================
-
-col3, col4 = st.columns(2)
-
-# ---------------- PROPERTY AREA ----------------
-
-with col3:
-
-    st.subheader("Property Area Distribution")
-
-    fig3, ax3 = plt.subplots()
-
-    df["Property_Area"].value_counts().plot(
-        kind="pie",
-        autopct="%1.1f%%",
-        ax=ax3
-    )
-
-    ax3.set_ylabel("")
-
-    st.pyplot(fig3)
-
-# ---------------- CREDIT HISTORY ----------------
-
-with col4:
-
-    st.subheader("Credit History")
-
-    fig4, ax4 = plt.subplots()
-
-    df["Credit_History"].value_counts().plot(
-        kind="bar",
-        ax=ax4
-    )
-
-    ax4.set_xlabel("Credit History")
-    ax4.set_ylabel("Count")
-
-    st.pyplot(fig4)
-
-# =========================================================
 # USER INPUT SECTION
 # =========================================================
 
@@ -410,3 +327,88 @@ if st.button("Predict Loan Status"):
             """,
             unsafe_allow_html=True
         )
+
+# =========================================================
+# GRAPHS AT END
+# =========================================================
+
+st.markdown("---")
+
+st.header("📊 Dataset Visualizations")
+
+col1, col2 = st.columns(2)
+
+# ---------------- LOAN STATUS GRAPH ----------------
+
+with col1:
+
+    st.subheader("Loan Approval Distribution")
+
+    fig1, ax1 = plt.subplots()
+
+    df["Loan_Status"].value_counts().plot(
+        kind="bar",
+        ax=ax1
+    )
+
+    ax1.set_xlabel("Loan Status")
+    ax1.set_ylabel("Count")
+
+    st.pyplot(fig1)
+
+# ---------------- APPLICANT INCOME GRAPH ----------------
+
+with col2:
+
+    st.subheader("Applicant Income Distribution")
+
+    fig2, ax2 = plt.subplots()
+
+    ax2.hist(df["ApplicantIncome"], bins=20)
+
+    ax2.set_xlabel("Applicant Income")
+    ax2.set_ylabel("Frequency")
+
+    st.pyplot(fig2)
+
+# =========================================================
+# MORE GRAPHS
+# =========================================================
+
+col3, col4 = st.columns(2)
+
+# ---------------- PROPERTY AREA ----------------
+
+with col3:
+
+    st.subheader("Property Area Distribution")
+
+    fig3, ax3 = plt.subplots()
+
+    df["Property_Area"].value_counts().plot(
+        kind="pie",
+        autopct="%1.1f%%",
+        ax=ax3
+    )
+
+    ax3.set_ylabel("")
+
+    st.pyplot(fig3)
+
+# ---------------- CREDIT HISTORY ----------------
+
+with col4:
+
+    st.subheader("Credit History")
+
+    fig4, ax4 = plt.subplots()
+
+    df["Credit_History"].value_counts().plot(
+        kind="bar",
+        ax=ax4
+    )
+
+    ax4.set_xlabel("Credit History")
+    ax4.set_ylabel("Count")
+
+    st.pyplot(fig4)
