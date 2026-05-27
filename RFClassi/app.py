@@ -12,9 +12,9 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import LabelEncoder
 from sklearn.metrics import accuracy_score
 
-# =========================================================
+
 # PAGE CONFIG
-# =========================================================
+
 
 st.set_page_config(
     page_title="Loan Approval Prediction",
@@ -22,9 +22,8 @@ st.set_page_config(
     layout="wide"
 )
 
-# =========================================================
 # CUSTOM CSS
-# =========================================================
+
 
 st.markdown("""
 <style>
@@ -72,9 +71,7 @@ div.stButton > button:hover {
 </style>
 """, unsafe_allow_html=True)
 
-# =========================================================
 # TITLE
-# =========================================================
 
 st.markdown(
     '<p class="main-title">🏦 Loan Approval Prediction</p>',
@@ -86,9 +83,8 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# =========================================================
 # CREATE MODEL FOLDER
-# =========================================================
+
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -108,9 +104,8 @@ csv_path = os.path.join(BASE_DIR, "data", "Loan_Prediction.csv")
 
 df = pd.read_csv(csv_path)
 
-# =========================================================
 # DATA CLEANING
-# =========================================================
+
 
 # Remove Loan_ID
 if "Loan_ID" in df.columns:
@@ -134,9 +129,8 @@ numerical_cols = df.select_dtypes(exclude="object").columns
 for col in numerical_cols:
     df[col].fillna(df[col].median(), inplace=True)
 
-# =========================================================
+
 # LABEL ENCODING
-# =========================================================
 
 label_encoders = {}
 
@@ -148,9 +142,8 @@ for col in categorical_cols:
 
     label_encoders[col] = le
 
-# =========================================================
 # FEATURES AND TARGET
-# =========================================================
+
 
 X = df.drop("Loan_Status", axis=1)
 y = df["Loan_Status"]
@@ -158,9 +151,8 @@ y = df["Loan_Status"]
 X = X.astype(float)
 y = y.astype(int)
 
-# =========================================================
 # TRAIN TEST SPLIT
-# =========================================================
+
 
 X_train, X_test, y_train, y_test = train_test_split(
     X,
@@ -169,9 +161,8 @@ X_train, X_test, y_train, y_test = train_test_split(
     random_state=42
 )
 
-# =========================================================
 # TRAIN MODEL
-# =========================================================
+
 
 model = RandomForestClassifier(
     n_estimators=100,
@@ -180,16 +171,13 @@ model = RandomForestClassifier(
 
 model.fit(X_train, y_train)
 
-# =========================================================
+
 # SAVE MODEL
-# =========================================================
 
 pickle.dump(model, open(MODEL_PATH, "wb"))
 pickle.dump(label_encoders, open(ENCODER_PATH, "wb"))
 
-# =========================================================
 # ACCURACY
-# =========================================================
 
 y_pred = model.predict(X_test)
 
@@ -197,9 +185,7 @@ accuracy = accuracy_score(y_test, y_pred)
 
 st.success(f"✅ Model Accuracy: {accuracy*100:.2f}%")
 
-# =========================================================
 # USER INPUT SECTION
-# =========================================================
 
 st.header("📝 Enter Applicant Details")
 
@@ -264,9 +250,8 @@ with col2:
         ["Urban", "Semiurban", "Rural"]
     )
 
-# =========================================================
 # CREATE INPUT DATAFRAME
-# =========================================================
+
 
 input_data = pd.DataFrame({
     "Gender": [Gender],
@@ -282,10 +267,7 @@ input_data = pd.DataFrame({
     "Property_Area": [Property_Area]
 })
 
-# =========================================================
 # ENCODE INPUT
-# =========================================================
-
 for col in input_data.columns:
 
     if col in label_encoders:
@@ -294,9 +276,8 @@ for col in input_data.columns:
             input_data[col]
         )
 
-# =========================================================
+
 # PREDICT BUTTON
-# =========================================================
 
 if st.button("Predict Loan Status"):
 
@@ -328,9 +309,8 @@ if st.button("Predict Loan Status"):
             unsafe_allow_html=True
         )
 
-# =========================================================
-# GRAPHS AT END
-# =========================================================
+
+# GRAPHS 
 
 st.markdown("---")
 
@@ -371,44 +351,6 @@ with col2:
 
     st.pyplot(fig2)
 
-# =========================================================
-# MORE GRAPHS
-# =========================================================
 
-col3, col4 = st.columns(2)
 
-# ---------------- PROPERTY AREA ----------------
-
-with col3:
-
-    st.subheader("Property Area Distribution")
-
-    fig3, ax3 = plt.subplots()
-
-    df["Property_Area"].value_counts().plot(
-        kind="pie",
-        autopct="%1.1f%%",
-        ax=ax3
-    )
-
-    ax3.set_ylabel("")
-
-    st.pyplot(fig3)
-
-# ---------------- CREDIT HISTORY ----------------
-
-with col4:
-
-    st.subheader("Credit History")
-
-    fig4, ax4 = plt.subplots()
-
-    df["Credit_History"].value_counts().plot(
-        kind="bar",
-        ax=ax4
-    )
-
-    ax4.set_xlabel("Credit History")
-    ax4.set_ylabel("Count")
-
-    st.pyplot(fig4)
+   
