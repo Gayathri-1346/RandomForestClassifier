@@ -79,7 +79,14 @@ MODEL_PATH = "model/loan_model.pkl"
 ENCODER_PATH = "model/label_encoders.pkl"
 
 # ---------------- LOAD DATA ----------------
-df = pd.read_csv("data/Loan_Prediction.csv")
+import os
+import pandas as pd
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+csv_path = os.path.join(BASE_DIR, "data", "Loan_Prediction.csv")
+
+df = pd.read_csv(csv_path)
 
 # ---------------- DATA PREPROCESSING ----------------
 df.dropna(inplace=True)
